@@ -1,17 +1,31 @@
 typedef struct ChainPoint {
     ChainPoint* LinkP=NULL;
     void* LinkPoint=NULL;
+    int Type=-1;
 } ChainPoint;
 
-void* CaoZuo=NULL;
+ChainPoint* HeadP_CP=NULL;//用于标定链表头
+ChainPoint* ForwardP_C=NULL;//用来前进
+ChainPoint* BackP_C=NULL;//用来操作
 
 
-ChainPoint* HeadP_CP=NULL;
-ChainPoint* ForwardP_C=NULL;
-ChainPoint* BackP_C=NULL;
+void HyperUpdate(ChainPoint* InputCPP){
+    
+    DustPoint* DustPointP=NULL;
+    switch(InputCPP->Type){
+        case 0:
+            DustPointP=(DustPoint*)(InputCPP->LinkPoint);
+            DustPointP->Update();
+            break;
+        case 1:
+            
+            break;
+        default:
+            break;
+    }
+}
 
-
-void ChuShiHua(){
+void MainStart(){
     HeadP_CP=new ChainPoint;
     ForwardP_C=HeadP_CP;
     BackP_C=ForwardP_C;
@@ -30,8 +44,34 @@ void MainEnd(){
     ForwardP_DP=NULL;
     BackP_DP=NULL;
 }
-void Start
+void RunRedstone(){
+    bool JumpOut=false;
+    ChainPoint* ForwardP_CZ=HeadP_CP;
+    ChainPoint* BackP_CZ=ForwardP_CZ;
+    while(JumpOut!=true){
+        usleep(20);
+        if(kbhit()!=0){
+            JumpOut=true;
+        };
+        
+        if(ForwardP_CZ->LinkP!=NULL){
+            ForwardP_CZ=ForwardP_CZ->LinkP;
+            HyperUpdate(BackP_CZ);
+            
+            BackP_CZ=ForwardP_CZ;
+        }
+        else{
+            HyperUpdate(BackP_CZ);
+            JumpOut=true;
+        };
+    }
+    exit(0);
+}
 
+
+
+
+/*========================以下为创建函数=======================*/
 
 
 void CreateNew() {
@@ -50,7 +90,7 @@ void CreateDustPoint() {
     
     CreateNew();
     BackP_C->LinkPoint=&(CreateP1->idp);
-    
+    BackP_C->Type=0;
     
 }
 
